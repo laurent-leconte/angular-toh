@@ -10,18 +10,32 @@ import {HEROES} from './mock-heroes'
 export class HeroService {
 
   private heroesUrl = 'api/heroes';
+  private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {
     console.log('inside hero service constructor');
-    for (let hero of HEROES) {
-      hero.power = Math.floor(Math.random()*100) + 1;
-    }
+    this.initHeroes();
+  }
+
+  initHeroes(): void {
+    this.getHeroes().then(heroes => {
+      for (let hero of heroes) {
+        hero.power = Math.floor(Math.random()*100) + 1;
+        this.update(hero);
+        console.log('updated hero: ' + JSON.stringify(hero))  
+      }
+    });
   }
 
   getHeroes(): Promise<Hero[]> {
+    console.log('call to getHeroes');
     return this.http.get(this.heroesUrl)
                 .toPromise()
-                .then(response => response.json().data as Hero[])
+                .then(response => {
+                  let heroes = response.json().data as Hero[];
+                  heroes.sort(function (h1, h2) {return h2.power - h1.power});
+                  return heroes;
+                })
                 .catch(this.handleError);
   }
 
@@ -33,11 +47,21 @@ export class HeroService {
                 .catch(this.handleError);
   }
 
+  update(hero: Hero): Promise<Hero> {
+    const url = `${this.heroesUrl}/${hero.id}`;
+    return this.http
+        .put(url, JSON.stringify(hero), {headers: this.headers})
+        .toPromise()
+        .then(() => hero)
+        .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('Oopsy daisies, I fell on my ass', error);
     return Promise.reject(error.message || error);
   }
 
+//previous code for reference
   getStaticHeroes(): Promise<Hero[]> {
     HEROES.sort(function (h1, h2) {return h2.power - h1.power});
     return Promise.resolve(HEROES);
