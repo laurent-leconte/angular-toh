@@ -50,10 +50,19 @@ export class HeroService {
   update(hero: Hero): Promise<Hero> {
     const url = `${this.heroesUrl}/${hero.id}`;
     return this.http
-        .put(url, JSON.stringify(hero), {headers: this.headers})
-        .toPromise()
-        .then(() => hero)
-        .catch(this.handleError);
+      .put(url, JSON.stringify(hero), {headers: this.headers})
+      .toPromise()
+      .then(() => hero)
+      .catch(this.handleError);
+  }
+
+  create(name: string): Promise<Hero> {
+    const power = Math.floor(Math.random()*100) + 1;
+    return this.http
+      .post(this.heroesUrl, JSON.stringify({name: name, power: power}), {headers: this.headers})
+      .toPromise()
+      .then(resp => resp.json().data as Hero)
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
