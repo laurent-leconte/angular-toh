@@ -22,6 +22,7 @@ export class HeroService {
   }
 
   getHeroes(): Promise<Hero[]> {
+    HEROES.sort(function (h1, h2) {return h2.power - h1.power});
     return Promise.resolve(HEROES);
   }
 
