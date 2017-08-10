@@ -25,18 +25,25 @@ export class HeroService {
                 .catch(this.handleError);
   }
 
+  getHero(id: number): Promise<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get(url)
+                .toPromise()
+                .then(response => response.json().data as Hero)
+                .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('Oopsy daisies, I fell on my ass', error);
     return Promise.reject(error.message || error);
   }
-
 
   getStaticHeroes(): Promise<Hero[]> {
     HEROES.sort(function (h1, h2) {return h2.power - h1.power});
     return Promise.resolve(HEROES);
   }
 
-  getHero(id: number): Promise<Hero> {
+  getStaticHero(id: number): Promise<Hero> {
     return this.getHeroes()
       .then(heroes => heroes.find(hero => hero.id === id));
   }
