@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+import { HeroService } from './hero.service'
+
+
 @Component({
   selector: 'my-app',
   template: `
@@ -10,6 +13,7 @@ import { Component } from '@angular/core';
    </nav>
    <router-outlet></router-outlet>
   `,
+  providers: [HeroService]
 })
 
 export class AppComponent {

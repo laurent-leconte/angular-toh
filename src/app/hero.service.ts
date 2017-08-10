@@ -6,6 +6,21 @@ import {HEROES} from './mock-heroes'
 @Injectable()
 export class HeroService {
 
+  constructor() {
+    console.log('inside hero service constructor');
+    for (let hero of HEROES) {
+      hero.power = Math.floor(Math.random()*100) + 1;
+    }
+    console.log('heroes : ' + JSON.stringify(HEROES));
+  }
+
+  ngOnInit(): void {
+    for (let hero of HEROES) {
+      hero.power = Math.floor(Math.random()*100) + 1;
+      console.log('hero: ' + JSON.stringify(hero));
+    }
+  }
+
   getHeroes(): Promise<Hero[]> {
     return Promise.resolve(HEROES);
   }
@@ -16,9 +31,9 @@ export class HeroService {
   }
 
   getHeroesSlowly(): Promise<Hero[]> {
-  return new Promise(resolve => {
-    // Simulate server latency with 2 second delay
-    setTimeout(() => resolve(this.getHeroes()), 2000);
-  });
-}
+    return new Promise(resolve => {
+      // Simulate server latency with 2 second delay
+      setTimeout(() => resolve(this.getHeroes()), 2000);
+    });
+  }
 }

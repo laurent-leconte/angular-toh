@@ -7,7 +7,7 @@ import { HeroService } from './hero.service'
   selector: 'my-heroes',
   templateUrl: './heroes.component.html',
   styleUrls: ['./heroes.component.css'],
-  providers: [HeroService]
+  //providers: [HeroService]
 })
 
 export class HeroesComponent implements OnInit {
@@ -20,7 +20,7 @@ export class HeroesComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.getHeroes()
+    this.getHeroes();
   }
 
   getHeroes(): void {
