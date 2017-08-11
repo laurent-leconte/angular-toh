@@ -70,6 +70,14 @@ export class HeroService {
     return Promise.reject(error.message || error);
   }
 
+  delete(id: number): Promise<void> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.delete(url, {headers: this.headers})
+      .toPromise()
+      .then(() => null)
+      .catch(this.handleError);
+}
+
 //previous code for reference
   getStaticHeroes(): Promise<Hero[]> {
     HEROES.sort(function (h1, h2) {return h2.power - h1.power});

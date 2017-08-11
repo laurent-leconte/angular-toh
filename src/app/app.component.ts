@@ -13,7 +13,7 @@ import { HeroService } from './hero.service'
    </nav>
    <router-outlet></router-outlet>
   `,
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
   providers: [HeroService]
 })
 
