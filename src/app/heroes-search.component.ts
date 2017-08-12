@@ -34,7 +34,7 @@ export class HeroSearchComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.heroes = this.searchTerms
-			.debounceTime(3000)
+			.debounceTime(300)
 			.distinctUntilChanged()
 			.switchMap(term => term
 				? this.heroSearchService.search(term)
