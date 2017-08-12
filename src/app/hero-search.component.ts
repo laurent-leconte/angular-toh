@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-import 'rxjs/add/observablr/of';
+import 'rxjs/add/observable/of';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
@@ -15,16 +15,16 @@ import { Hero } from './hero';
 
 @Component({
 	selector: 'hero-search',
-	templateUrl: 'hero-search.component.html',
-	styleUrls: [ 'hero-search.component.css' ],
+	templateUrl: './hero-search.component.html',
+	styleUrls: [ './hero-search.component.css' ],
 	providers: [HeroSearchService]
 })
 
 export class HeroSearchComponent implements OnInit {
 	heroes: Observable<Hero[]>;
-	private searchTerms = new Subject<string[]>;
+	private searchTerms = new Subject<string>();
 
-	constructor(
+	constructor (
 		private heroSearchService: HeroSearchService,
 		private router: Router) {}
 
