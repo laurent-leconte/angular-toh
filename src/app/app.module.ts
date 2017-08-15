@@ -1,4 +1,4 @@
-import { NgModule }             from '@angular/core';
+import { NgModule, APP_INITIALIZER }             from '@angular/core';
 import { BrowserModule }        from '@angular/platform-browser';
 import {FormsModule }           from '@angular/forms';
 import { HttpModule }           from '@angular/http';
@@ -13,6 +13,12 @@ import { DashboardComponent }   from './dashboard.component';
 import { HeroService }          from './hero.service';
 import { AppRoutingModule }     from './app-routing.module';
 import { HeroSearchComponent }  from './hero-search.component';
+
+
+function initHeroService(heroService: HeroService) {
+  console.log('inside initHeroService');
+  return () => heroService.initHeroes();
+}
 
 @NgModule({
   imports: [
@@ -29,9 +35,15 @@ import { HeroSearchComponent }  from './hero-search.component';
     HeroesComponent,
     HeroSearchComponent
   ],
-  providers: [ HeroService ],
-  bootstrap:    [ AppComponent ]
+  providers: [ 
+    HeroService,
+    { provide: APP_INITIALIZER,
+      useFactory: initHeroService,
+      deps: [HeroService],
+      multi: true
+    }
+  ],
+  bootstrap: [ AppComponent ]
 })
-
 
 export class AppModule { }

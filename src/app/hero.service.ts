@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
@@ -7,22 +7,17 @@ import { Hero } from './hero'
 import {HEROES} from './mock-heroes'
 
 @Injectable()
-export class HeroService implements OnInit {
+export class HeroService {
 
   private heroesUrl = 'api/heroes';
   private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {
-    console.log('inside hero service constructor');
-    this.initHeroes();
-  }
-
-  ngOnInit(): void {
-    console.log('inside hero service OnInit');
-    this.initHeroes();
+    //this.initHeroes();
   }
 
   initHeroes(): void {
+    console.log('initializing heroes');
     this.getHeroes().then(heroes => {
       for (let hero of heroes) {
         hero.power = Math.floor(Math.random()*100) + 1;
@@ -33,7 +28,6 @@ export class HeroService implements OnInit {
   }
 
   getHeroes(): Promise<Hero[]> {
-    console.log('call to getHeroes');
     return this.http.get(this.heroesUrl)
                 .toPromise()
                 .then(response => {
